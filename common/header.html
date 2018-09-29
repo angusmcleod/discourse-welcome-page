@@ -13,11 +13,12 @@
       if (path === "login") {
         const youtubeId = settings.youtube_id;
         const youtubeTitle = settings.youtube_title;
+        const youtubeDesktopWidth = settings.youtub_desktop_width;
         const mobileView = this.get('site.mobileView');
 
         if (youtubeId) {
           Ember.run.scheduleOnce('afterRender', () => {
-            let width = mobileView ? $(window).width() - 20 : 500;
+            let width = mobileView ? $(window).width() - 20 : Number(youtubeDesktopWidth);
             let $element = $('.login-video');
             $element.data('youtube-id', youtubeId),
             $element.data('youtube-title', youtubeTitle),
