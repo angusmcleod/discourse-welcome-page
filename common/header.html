@@ -1,0 +1,41 @@
+<script type="text/x-handlebars" data-template-name="/connectors/above-static/video-container">
+  <div class="login-video"></div>
+</script>
+
+<script type="text/discourse-plugin" version="0.8">
+  const { on, observes } = require('ember-addons/ember-computed-decorators');
+
+  api.modifyClass('controller:static', {
+    @on('init')
+    @observes('model.path')
+    setupVideo() {
+      const path = this.get("model.path");
+      if (path === "login") {
+        const youtubeId = settings.youtube_id;
+        const youtubeTitle = settings.youtube_title;
+        const mobileView = this.get('site.mobileView');
+
+        if (youtubeId) {
+          Ember.run.scheduleOnce('afterRender', () => {
+            let width = mobileView ? $(window).width() - 20 : 500;
+            let $element = $('.login-video');
+            $element.data('youtube-id', youtubeId),
+            $element.data('youtube-title', youtubeTitle),
+            $element.data('width', width);
+            $($element).lazyYT();
+            $element.insertAfter('.login-required');
+          });
+        }
+
+        const backgroundUrl = settings.background_image_url;
+
+        if (backgroundUrl) {
+          Ember.run.scheduleOnce('afterRender', () => {
+            $('body.static-login').css('background-image', `url(${backgroundUrl})`);
+            $('body.static-login').addClass('background-image');
+          });
+        }
+      }
+    }
+  });
+</script>
