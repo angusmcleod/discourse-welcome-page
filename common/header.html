@@ -3,7 +3,7 @@
 </script>
 
 <script type="text/discourse-plugin" version="0.8">
-  const { on, observes } = require('ember-addons/ember-computed-decorators');
+  const { on, observes } = require('discourse-common/utils/decorators');
 
   api.modifyClass('controller:static', {
     @on('init')
